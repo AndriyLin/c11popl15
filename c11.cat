@@ -94,7 +94,8 @@ acyclic preSC as ConsSC (* inclusion of hb and mo by construction of preSC *)
 
 (* 6. ConsRFna *)
 let lhsConsRFna = rf & (( isNA * _ ) | ( _ * isNA ))
-call subseteq (rf & (( isNA * _ ) | ( _ * isNA )), hb) (* as ConsRFna *)
+empty (lhsConsRFna \ hb) as ConsRFna
+(* call subseteq (lhsConsRFna, hb) as ConsRFna *)
 (* NB: Tyler conjectures that empty racy and ConsRFhb implies ConsRFna *)
 
 (* 7. SCReads *)
@@ -104,7 +105,8 @@ let imm = singlestep
 let lhsSCReads = rf & ( _ * isSC )
 let rhsSCReads = imm(preSCR)
                | (( (!isSC) * _ ) & nodetour(rf, hb, imm(preSCR)))
-call subseteq(lhsSCReads, rhsSCReads) (* as SCReads *)
+empty (lhsSCReads \ rhsSCReads) as SCReads
+(* call subseteq(lhsSCReads, rhsSCReads) as SCReads *)
 (* Implication turned into subseteq *)
 (* NB: is this problematic because preSCR is not total? *)
 
