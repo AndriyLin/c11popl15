@@ -13,4 +13,4 @@ P1 (volatile int* a, volatile int* x, volatile int* y) {
   atomic_store_explicit(x, 1, memory_order_relaxed);
 }
 
-exists (a=1 /\ x=1 /\ y=1) // expected
+exists (a=1 /\ x=1 /\ y=1)
