@@ -24,4 +24,4 @@ P2 (volatile int* w, volatile int* x, volatile int* y, volatile int* z) {
   }
 }
 
-exists (0:t=2 /\ x=1 /\ y=1 /\ z=1)
+exists (0:t=2 /\ w=1 /\ x=1 /\ y=1 /\ z=1)
