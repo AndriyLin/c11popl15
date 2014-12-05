@@ -92,8 +92,7 @@ acyclic preSC as ConsSC (* inclusion of hb and mo by construction of preSC *)
 
 (* 6. ConsRFna *)
 let lhsConsRFna = rf & (( isNA * _ ) | ( _ * isNA ))
-empty (lhsConsRFna \ hb) as ConsRFna
-(* call subseteq (lhsConsRFna, hb) as ConsRFna *)
+checkcall subseteq(lhsConsRFna, hb) as ConsRFna
 (* NB: Tyler conjectures that empty racy and ConsRFhb implies ConsRFna *)
 
 (* 7. SCReads *)
@@ -103,8 +102,7 @@ let imm = singlestep
 let lhsSCReads = rf & ( _ * isSC )
 let rhsSCReads = imm(preSCR)
                | (( (!isSC) * _ ) & nodetour(rf, hb, imm(preSCR)))
-empty (lhsSCReads \ rhsSCReads) as SCReads
-(* call subseteq(lhsSCReads, rhsSCReads) as SCReads *)
+checkcall subseteq(lhsSCReads, rhsSCReads) as SCReads
 (* Implication turned into subseteq *)
 (* NB: is this problematic because preSCR is not total? *)
 
@@ -124,58 +122,5 @@ irreflexive (rf;hb;mo) as CohRW
 irreflexive ((fr & ( isrmw * _ )) ; mo) as AtRMW
 
 (* 15. ConsAlloc not modelled because we cannot express malloc *)
-
-(*
-(* --------------------------------------------------------------------------*)
-(* Section 4: Proposed Fixes                                                 *)
-(* --------------------------------------------------------------------------*)
-
-(* 4.1 Resolving causality cycles *)
-
-(* Naive *)
-(* drop ConsRFna *)
-
-(* Arf *)
-(*
-acyclic (hb | rf) as Arf
-*)
-
-(* Arfna *)
-(*
-let rfNA = rf & (( isNA * _ ) | ( _ * isNA ))
-acyclic (hb | rfNA) as Arfna
- *)
-
-(* 4.2 Correcting the SCReads axiom *)
-
-(* SCRead' *)
-(* same lhsSCReads *)
-let rhsSCReads' = imm preSCR
-                | (( (!isSC) * _ ) & (nodetour rf hb preSCR))
-(* call subseteq(lhsSCReads, rhsSCReads') as SCReads' *)
-empty (lhsSCReads \ rhsSCReads') as SCReads'
-
-(* 4.3 Strengthening the Release Sequence definition *)
-let rec rseq' = id
-              | (sameThread & mo)
-              | (( _ * isrmw ) & rseq';rf)
-
-(* 4.4 Allowing intra-thread synchronisation *)
-let sameThread' = sb+
-(* NB: is this vacuously the same as our original sameThread because of po? *)
-
-(* --------------------------------------------------------------------------*)
-(* Section 5                                                                 *)
-(* --------------------------------------------------------------------------*)
-
-(* Redundant axiom equivalent to CohWW *)
-(* call subseteq(hb & ( iswrite * iswrite ) & loc, mo) as ConsMOhb *)
-
-(* Alternative presentation of Coherence *)
-let rb =  fr (* fr == rf^-1; mo *)
-       & ~id (* a != b *)
-let com = mo | rf | rb
-acyclic ((hb & loc) | com) as Coh
-*)
 
 undefined_unless empty racy as Racy
