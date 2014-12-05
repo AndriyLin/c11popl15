@@ -49,12 +49,14 @@ def main(argv=None):
     if output:
       print(l, file=args.output, end="")
 
+  if args.output != sys.stdout:
+    print("model ({0}, {1}, {2}, {3}) generated in {4}".format(args.RF, args.SC, args.RS, args.ST, args.output.name))
+
   if args.output == sys.stdout or args.herdflags == []:
     return 0
 
   args.output.close()
   cmd = ['herd', '-conf', 'c11.cfg'] + args.herdflags
-  print("model ({0}, {1}, {2}, {3}) generated in {4}".format(args.RF, args.SC, args.RS, args.ST, args.output.name))
   print(" ".join(cmd))
   return subprocess.call(cmd)
 
