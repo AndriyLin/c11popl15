@@ -2,7 +2,7 @@
 
 (*
  * Translation of C11 memory model from "Common Compiler Optimisations are
- * Invalid in the C11 Memory Model and what we can do about it' (POPL '15)
+ * Invalid in the C11 Memory Model and what we can do about it" (POPL '15)
  *)
 
 include "library.cat"
@@ -19,7 +19,13 @@ let C = rmw
 let isread = R | C
 let iswrite = W | C
 let isfence = F & (acq | rel) (* herd allows fences of other memory orders *)
+#if ST == STorig
 let sameThread = int(( _ * _ )) (* built-in relation *)
+#elif ST == STnew
+(* 4.4 Allowing intra-thread synchronisation *)
+let sameThread' = sb+
+(* NB: is this vacuously the same as our original sameThread because of po? *)
+#endif
 let isaccess = isread | iswrite
 let isrmw = isread & iswrite (* i.e., equal to C *)
 let isNA = na
@@ -27,11 +33,18 @@ let isSC = sc
 let isAcq = acq | acq_rel | sc
 let isRel = rel | acq_rel | sc
 
+#if RS == RSorig
 (* rsElem gives possible candidates for the release sequence *)
 let rsElem = sameThread | ( _ * isrmw )
 (* capture when a pair of sequenced mo steps are not matched with rsElem *)
 let intermediateMOStepNotInRSElem = (~rsElem & mo); mo
 let rseq = (rsElem & mo & ~( intermediateMOStepNotInRSElem ))?
+#elif RS == RSnew
+(* 4.3 Strengthening the Release Sequence definition *)
+let rec rseq = id
+             | (sameThread & mo)
+             | (( _ * isrmw ) & rseq;rf)
+#endif
 
 (* Synchronises with case-split (not used) *)
 (* a = c and b = d *)
@@ -91,17 +104,31 @@ acyclic preSC as ConsSC (* inclusion of hb and mo by construction of preSC *)
 (* 5. ConsRF satisfied due to construction of rf *)
 
 (* 6. ConsRFna *)
+#if RF == ConsRFna
 let lhsConsRFna = rf & (( isNA * _ ) | ( _ * isNA ))
 checkcall subseteq(lhsConsRFna, hb) as ConsRFna
 (* NB: Tyler conjectures that empty racy and ConsRFhb implies ConsRFna *)
+#elif RF == Naive
+(* drop ConsRFna axiom *)
+#elif RF == Arf
+acyclic (hb | rf) as Arf
+#elif RF == Arfna
+let rfNA = rf & (( isNA * _ ) | ( _ * isNA ))
+acyclic (hb | rfNA) as Arfna
+#endif
 
 (* 7. SCReads *)
 (* partial order preSCR mirroring scr in paper *)
 let preSCR = preSC & ( iswrite * _ ) & loc
 let imm = singlestep
 let lhsSCReads = rf & ( _ * isSC )
+#if SC == SCorig
 let rhsSCReads = imm(preSCR)
                | (( (!isSC) * _ ) & nodetour(rf, hb, imm(preSCR)))
+#elif SC == SCnew
+let rhsSCReads = imm(preSCR)
+               | (( (!isSC) * _ ) & nodetour(rf, hb, preSCR))
+#endif
 checkcall subseteq(lhsSCReads, rhsSCReads) as SCReads
 (* Implication turned into subseteq *)
 (* NB: is this problematic because preSCR is not total? *)
