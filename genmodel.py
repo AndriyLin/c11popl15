@@ -21,7 +21,7 @@ def main(argv=None):
   parser.add_argument("--SC", metavar="X", choices=CHOICES_SC, default=CHOICES_SC[0], help="choice of SCReads axiom: {0}".format(", ".join(CHOICES_SC)))
   parser.add_argument("--RS", metavar="X", choices=CHOICES_RS, default=CHOICES_RS[0], help="choice of rseq definition: {0}".format(", ".join(CHOICES_RS)))
   parser.add_argument("--ST", metavar="X", choices=CHOICES_ST, default=CHOICES_ST[0], help="choice of sameThread definition: {0}".format(", ".join(CHOICES_ST)))
-  parser.add_argument("--input", default="c11.cat", type=argparse.FileType('r'), help="Template cat file")
+  parser.add_argument("--input", default="c11.cat-template", type=argparse.FileType('r'), help="Template cat file")
   parser.add_argument("--output", default="gen.cat", type=argparse.FileType('w'), help="Output cat file")
   parser.add_argument('herdflags', nargs='*', help="Passed to herd command-line")
   args = parser.parse_args(argv)
