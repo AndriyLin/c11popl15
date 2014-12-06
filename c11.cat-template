@@ -106,7 +106,7 @@ acyclic preSC as ConsSC (* inclusion of hb and mo by construction of preSC *)
 (* 6. ConsRFna *)
 #if RF == ConsRFna
 let lhsConsRFna = rf & (( isNA * _ ) | ( _ * isNA ))
-checkcall subseteq(lhsConsRFna, hb) as ConsRFna
+empty (lhsConsRFna \ hb) as ConsRFna
 (* NB: Tyler conjectures that empty racy and ConsRFhb implies ConsRFna *)
 #elif RF == Naive
 (* drop ConsRFna axiom *)
@@ -129,7 +129,7 @@ let rhsSCReads = imm(preSCR)
 let rhsSCReads = imm(preSCR)
                | (( (!isSC) * _ ) & nodetour(rf, hb, preSCR))
 #endif
-checkcall subseteq(lhsSCReads, rhsSCReads) as SCReads
+empty (lhsSCReads \ rhsSCReads) as SCReads
 (* Implication turned into subseteq *)
 (* NB: is this problematic because preSCR is not total? *)
 
