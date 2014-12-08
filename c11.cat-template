@@ -89,7 +89,7 @@ let racy = ( isaccess * _ )
 (* In the paper, `sc' is a total order over all SC atomics. We build a partial
    order `preSC' such that all linearisations of preSC are instances of the
    total sc order of C11 *)
-let preSC = (hb | mo) &  ( isSC * isSC )
+let preSC = ((hb | mo) &  ( isSC * isSC ))+
 
 (* 1. ConsSB satisfied due to construction of po (aliased to sb) *)
 

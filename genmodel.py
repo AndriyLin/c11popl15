@@ -55,6 +55,7 @@ def main(argv=None):
   if args.output == sys.stdout or args.herdflags == []:
     return 0
 
+  # check that herd exists in path
   args.output.close()
   cmd = ['herd', '-conf', 'c11.cfg'] + args.herdflags
   print(" ".join(cmd))

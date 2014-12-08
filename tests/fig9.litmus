@@ -7,3 +7,11 @@ P0 (volatile int* x, volatile int* y) {
   int t1 = atomic_load_explicit(x, memory_order_relaxed);
   atomic_store_explicit(x, t1, memory_order_relaxed);
 }
+
+P1 (volatile int* x, volatile int* y) {
+  int t2 = x.CAS(0,1,memory_order_acquire);
+  int t3 = atomic_load_explicit(y, memory_order_relaxed);
+}
+
+// Need join of P0/P1 followed by
+int t4 = atomic_load_explicit(x, memory_order_relaxed);
