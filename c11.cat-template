@@ -151,3 +151,9 @@ irreflexive ((fr & ( isrmw * _ )) ; mo) as AtRMW
 (* 15. ConsAlloc not modelled because we cannot express malloc *)
 
 undefined_unless empty racy as Racy
+
+show asw,sb,preSC,preSCR
+show mo
+show sw
+show hb
+show racy
