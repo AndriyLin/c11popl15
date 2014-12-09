@@ -23,7 +23,7 @@ let isfence = F & (acq | rel) (* herd allows fences of other memory orders *)
 let sameThread = int(( _ * _ )) (* built-in relation *)
 #elif ST == STnew
 (* 4.4 Allowing intra-thread synchronisation *)
-let sameThread' = sb+
+let sameThread = sb+
 (* NB: is this vacuously the same as our original sameThread because of po? *)
 #endif
 let isaccess = isread | iswrite

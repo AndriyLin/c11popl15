@@ -4,6 +4,7 @@ CATS=${BUCKET}/cats
 mkdir -p ${CATS}
 
 # generate all models
+cp c11.cfg c11popl15/c11/cats
 cp library.cat c11popl15/c11/cats
 for RF in ConsRFna Naive Arf Arfna; do
   for SC in SCorig SCnew; do
