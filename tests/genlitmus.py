@@ -50,13 +50,10 @@ def all_accesses(l,v,w):
     result.append((tag, acc))
   # RMWs
   for msucc in CHOICES_MO:
-    for mfail in CHOICES_MO:
-      if mfail in [ "memory_order_release", "memory_order_acq_rel" ]: continue
-      if mo_lteq(msucc, mfail):
-        tag = "C{0}+{1}".format(mo_short(msucc), mo_short(mfail))
-       #acc = "atomic_compare_exchange_strong_explicit({0}, {1}, {2}, {3}, {4})".format(l, v, w, msucc, mfail)
-        acc = "WCAS({0}, {1}, {2}, {3}, {4})".format(l, v, w, msucc, mfail)
-        result.append((tag, acc))
+    mfail = "memory_order_relaxed"
+    tag = "C{0}".format(mo_short(msucc))
+    acc = "WCAS({0}, {1}, {2}, {3}, {4})".format(l, v, w, msucc, mfail)
+    result.append((tag, acc))
   return result
 
 ACCESS_CHOICE_REGEX = re.compile(r"ACCESS_CHOICE\((?P<params>[^)]*)\)")
