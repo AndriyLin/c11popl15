@@ -9,7 +9,7 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  int t2 = x.CAS(0,1,memory_order_acquire);
+  int t2 = WCAS(x, 0, 1, memory_order_acquire, memory_order_relaxed);
   int t3 = atomic_load_explicit(y, memory_order_relaxed);
 }
 
