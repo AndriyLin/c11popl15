@@ -1,0 +1,14 @@
+C appendixB
+{ [x] = 0; [y] = 0; }
+
+P0 (volatile int* x, volatile int* y) {
+  int r = atomic_load_explicit(x, MO_CHOICE(memory_order_relaxed, memory_order_acquire, memory_order_seq_cst));
+  atomic_store_explicit(y, 1, MO_CHOICE(memory_order_relaxed, memory_order_release, memory_order_seq_cst));
+}
+
+P1 (volatile int* x, volatile int* y) {
+  int s = atomic_load_explicit(y, memory_order_relaxed);
+  atomic_store_explicit(x, 1, memory_order_relaxed);
+}
+
+exists (0:r=1 /\ 1:s=1)

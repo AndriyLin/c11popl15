@@ -1,0 +1,23 @@
+C A9
+{ [x] = 0; [y] = 0; }
+
+P0 (volatile int* x, volatile int* y, volatile int* z) {
+  *z = 1;
+  atomic_store_explicit(x, 1, memory_order_release);
+}
+
+P1 (volatile int* x, volatile int* y, volatile int* z) {
+  int r = atomic_load_explicit(x, memory_order_relaxed);
+  if (r) {
+    fence(memory_order_acquire);
+    fence(memory_order_release);
+    atomic_store_explicit(y, 1, memory_order_relaxed);
+  }
+}
+
+P2 (volatile int* x, volatile int* y, volatile int* z) {
+  int t = atomic_load_explicit(y, memory_order_acquire);
+  if (t) {
+    *z = 2;
+  }
+}

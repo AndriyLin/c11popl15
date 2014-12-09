@@ -1,0 +1,13 @@
+C A3v2
+{ [x] = 0; [y] = 0; }
+
+P0 (volatile int* x, volatile int* y) {
+  *y = 1;
+  atomic_store_explicit(x, 1, memory_order_release);
+}
+
+P1 (volatile int* x, volatile int* y) {
+  while (!WCAS(x, 0, 1, MO_CHOICE(memory_order_acquire, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed)) {
+    ACCESS_CHOICE(y,1,2);
+  }
+}
