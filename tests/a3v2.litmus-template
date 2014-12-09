@@ -7,7 +7,7 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  while (!WCAS(x, 0, 1, MO_CHOICE(memory_order_acquire, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed)) {
+  while (0 != WCAS(x, 0, 1, MO_CHOICE(memory_order_acquire, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed)) {
     ACCESS_CHOICE(y,1,2);
   }
 }
