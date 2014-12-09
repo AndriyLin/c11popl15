@@ -22,5 +22,5 @@ mkdir -p ${TESTS}
 cd tests
 cp *.litmus ../${TESTS}
 for f in *.litmus-template; do
-  ./genlitmus.py --input $f --output_base ../${TESTS}/Z_${f/.litmus-template};
+  ./genlitmus.py --input $f --output_base ../${TESTS}/z_${f/.litmus-template};
 done
