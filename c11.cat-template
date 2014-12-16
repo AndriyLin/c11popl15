@@ -1,4 +1,5 @@
 "C11"
+withsc
 
 (*
  * Translation of C11 memory model from "Common Compiler Optimisations are
@@ -11,6 +12,7 @@ include "library.cat"
 let sb = singlestep(po) (* except po is a total per-thread order *)
 let mo = co
 let C = rmw
+let scTotal = S (* total order over all SC actions due to 'withsc' option *)
 
 (* --------------------------------------------------------------------------*)
 (* Figure 2: Auxiliary definitions                                           *)
@@ -86,17 +88,14 @@ let racy = ( isaccess * _ )
 (* Figure 5: Axioms                                                          *)
 (* --------------------------------------------------------------------------*)
 
-(* In the paper, `sc' is a total order over all SC atomics. We build a partial
-   order `preSC' such that all linearisations of preSC are instances of the
-   total sc order of C11 *)
-let preSC = ((hb | mo) &  ( isSC * isSC ))+
-
 (* 1. ConsSB satisfied due to construction of po (aliased to sb) *)
 
 (* 2. ConsMO satisfied due to construction of co (aliased to mo) *)
 
 (* 3. ConsSC *)
-acyclic preSC as ConsSC (* inclusion of hb and mo by construction of preSC *)
+(* scTotal is a total order over SC actions is satisfied by construction *)
+let lhsConsSC = (hb | mo) & ( isSC * isSC )
+empty (lhsConsSC \ scTotal) as ConsSC
 
 (* 4. ConsRFdom satisfied due to how herd builds rf for C11 *)
 (* herd does not build rf for uninitialised reads (NB: double-check this) *)
@@ -118,20 +117,18 @@ acyclic (hb | rfNA) as Arfna
 #endif
 
 (* 7. SCReads *)
-(* partial order preSCR mirroring scr in paper *)
-let preSCR = preSC & ( iswrite * _ ) & loc
+let scr = scTotal & ( iswrite * _ ) & loc
 let imm = singlestep
 let lhsSCReads = rf & ( _ * isSC )
 #if SC == SCorig
-let rhsSCReads = imm(preSCR)
-               | (( (!isSC) * _ ) & nodetour(rf, hb, imm(preSCR)))
+let rhsSCReads = imm(scr)
+               | (( (!isSC) * _ ) & nodetour(rf, hb, imm(scr)))
 #elif SC == SCnew
-let rhsSCReads = imm(preSCR)
-               | (( (!isSC) * _ ) & nodetour(rf, hb, preSCR))
+let rhsSCReads = imm(scr)
+               | (( (!isSC) * _ ) & nodetour(rf, hb, scr))
 #endif
 empty (lhsSCReads \ rhsSCReads) as SCReads
 (* Implication turned into subseteq *)
-(* NB: is this problematic because preSCR is not total? *)
 
 (* 8. IrrHB *)
 irreflexive hb as IrrHB
@@ -152,8 +149,9 @@ irreflexive ((fr & ( isrmw * _ )) ; mo) as AtRMW
 
 undefined_unless empty racy as Racy
 
-show asw,sb,preSC,preSCR
+show asw,sb,scr
 show mo
 show sw
 show hb
 show racy
+show lhsSCReads, rhsSCReads
