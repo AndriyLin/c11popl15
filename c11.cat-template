@@ -149,7 +149,7 @@ irreflexive ((fr & ( isrmw * _ )) ; mo) as AtRMW
 
 undefined_unless empty racy as Racy
 
-show asw,sb,scr
+show sb,scr
 show mo
 show sw
 show hb
