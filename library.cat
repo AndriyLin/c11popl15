@@ -11,3 +11,12 @@ let singlestep (R) = nodetour(R, R, R)
 procedure subseteq(A, B) =
  empty (A \ B)
 end
+
+procedure inclusion(r1, r2) =
+  empty r1 & ~r2
+end
+
+procedure total(r,E) =
+  let rt = (r | r^-1)
+  call inclusion((E*E),rt)
+end
