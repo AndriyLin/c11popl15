@@ -11,10 +11,9 @@ include "library.cat"
 let sb = singlestep(po) (* except po is a total per-thread order *)
 let mo = co
 let C = rmw
-let com = rf | co | fr
-let scTotal = (po | com)+ & (sc*sc)
+let scTotal = (po | rf | mo)+ & (sc*sc)
 acyclic scTotal 
-call total(scTotal, sc)
+(*call total(scTotal, sc)*)
 
 (* --------------------------------------------------------------------------*)
 (* Figure 2: Auxiliary definitions                                           *)
