@@ -1,4 +1,4 @@
-C figure6
+C figure6_translated
 { [x] = 0; [y] = 0; }
 
 P0 (volatile int* x, volatile int* y) {
