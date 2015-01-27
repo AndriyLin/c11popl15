@@ -1,8 +1,7 @@
-C A1
 { [x] = 0; [y] = 0; }
 
 P0 (volatile int* x, volatile int* y) {
-  ACCESS_CHOICE(y,0,1);
+  ACCESS_CHOICE(y,0,2);
   atomic_store_explicit(x, 1, MO_CHOICE(memory_order_release, memory_order_seq_cst));
 }
 

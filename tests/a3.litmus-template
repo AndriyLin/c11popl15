@@ -1,4 +1,3 @@
-C A3
 { [x] = 0; [y] = 0; }
 
 P0 (volatile int* x, volatile int* y) {
@@ -7,7 +6,7 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  while (1 != atomic_load_explicit(x, MO_CHOICE(memory_order_acquire, memory_order_seq_cst))) {
+  if (1 == atomic_load_explicit(x, MO_CHOICE(memory_order_acquire, memory_order_seq_cst))) {
     ACCESS_CHOICE(y,1,2);
   }
 }

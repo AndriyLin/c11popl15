@@ -52,7 +52,7 @@ def all_accesses(l,v,w):
   for msucc in CHOICES_MO:
     mfail = "memory_order_relaxed"
     tag = "C{0}".format(mo_short(msucc))
-    acc = "WCAS({0}, {1}, {2}, {3}, {4})".format(l, v, w, msucc, mfail)
+    acc = "SCAS({0}, {1}, {2}, {3}, {4})".format(l, "zero", w, msucc, mfail)
     result.append((tag, acc))
   return result
 
@@ -61,9 +61,10 @@ MO_CHOICE_REGEX = re.compile(r"MO_CHOICE\((?P<params>[^)]*)\)")
 
 def printvariants(lines, output, tag):
   if lines == []:
-    tag += ".litmus"
-    print("Writing to {0}".format(tag))
-    f = open(tag, "w")
+    ftag = tag + ".litmus"
+    print("Writing to {0}".format(ftag))
+    f = open(ftag, "w")
+    print("C {0}".format(tag), file=f)
     for l in output:
       print(l, end="", file=f)
     f.close()

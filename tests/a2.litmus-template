@@ -1,12 +1,11 @@
-C A2
-{ [x] = 0; [y] = 0; }
+{ [x] = 0; [y] = 0; [zero] = 0; }
 
-P0 (volatile int* x, volatile int* y) {
-  ACCESS_CHOICE(y,0,1);
-  WCAS(x, 0, 1, MO_CHOICE(memory_order_release, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed);
+P0 (volatile int* x, volatile int* y, volatile int *zero) {
+  ACCESS_CHOICE(y,0,2);
+  SCAS(x, zero, 1, MO_CHOICE(memory_order_release, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed);
 }
 
-P1 (volatile int* x, volatile int* y) {
+P1 (volatile int* x, volatile int* y, volatile int *zero) {
   int r1 = atomic_load_explicit(x, memory_order_acquire);
   if (r1) {
     *y = 1;
