@@ -6,7 +6,10 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  while (0 != SCAS(x, zero, 1, MO_CHOICE(memory_order_acquire, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed)) {
+  int r0 = SCAS(x, zero, 1, MO_CHOICE(memory_order_acquire, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed);
+  if (r0) {
     ACCESS_CHOICE(y,1,2);
   }
 }
+
+exists(1:r0=1)
