@@ -1,5 +1,5 @@
 C figure9
-{ [x] = 0; [y] = 0; }
+{ [x] = 0; [y] = 0; [zero] = 0; }
 
 P0 (volatile int* x, volatile int* y) {
   atomic_store_explicit(y, 1, memory_order_relaxed);
@@ -9,7 +9,7 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  int t2 = WCAS(x, 0, 1, memory_order_acquire, memory_order_relaxed);
+  int t2 = SCAS(x, zero, 1, memory_order_acquire, memory_order_relaxed);
   int t3 = atomic_load_explicit(y, memory_order_relaxed);
 }
 

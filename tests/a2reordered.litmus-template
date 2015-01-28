@@ -1,7 +1,7 @@
-{ [x] = 0; [y] = 0; }
+{ [x] = 0; [y] = 0; [zero] = 0; }
 
 P0 (volatile int* x, volatile int* y) {
-  WCAS(x, 0, 1, MO_CHOICE(memory_order_release, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed);
+  SCAS(x, zero, 1, MO_CHOICE(memory_order_release, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed);
   ACCESS_CHOICE(y,0,1);
 }
 
