@@ -1,0 +1,12 @@
+C11 seq
+{ a = 0; x = 0; y = 0; }
+
+P0     | P1                                                 | P2                                                 ;
+*a = 1 | r0 = atomic_load_explicit(x, memory_order_relaxed) | r2 = atomic_load_explicit(y, memory_order_relaxed) ;
+       | beq r0, 0, END1                                    | beq r2, 0, END2                                    ;
+       | r1 = *a                                            | atomic_store_explicit(x, 1, memory_order_relaxed)  ;
+       | beq r1, 0, END1                                    | END2:                                              ;
+       | atomic_store_explicit(y, 1, memory_order_relaxed)  |                                                    ;
+       | END1:                                              |                                                    ;
+
+exists (a=1 /\ x=1 /\ y=1)

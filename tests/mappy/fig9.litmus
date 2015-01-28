@@ -1,0 +1,10 @@
+C11 figure9
+{ x = 0; y = 0; zero = 0; }
+
+P0                                                 | P1                                                                | P2                                                 ;
+atomic_store_explicit(y, 1, memory_order_relaxed)  | t2 = SCAS(x, zero, 1, memory_order_acquire, memory_order_relaxed) | // Need join of P0/P1 followed by                  ;
+atomic_thread_fence(memory_order_release)          | t3 = atomic_load_explicit(y, memory_order_relaxed)                | t4 = atomic_load_explicit(x, memory_order_relaxed) ;
+t1 = atomic_load_explicit(x, memory_order_relaxed) |                                                                   |                                                    ;
+atomic_store_explicit(x, t1, memory_order_relaxed) |                                                                   |                                                    ;
+
+exists (1=1)

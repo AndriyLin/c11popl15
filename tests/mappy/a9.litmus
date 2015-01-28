@@ -1,0 +1,12 @@
+C11 A9
+{ x = 0; y = 0; }
+
+P0                                                | P1                                                | P2                                                ;
+*z = 1                                            | r = atomic_load_explicit(x, memory_order_relaxed) | t = atomic_load_explicit(y, memory_order_acquire) ;
+atomic_store_explicit(x, 1, memory_order_release) | beq r, 0, END1                                    | beq t, 0, END2                                    ;
+                                                  | fence(memory_order_acquire)                       | *z = 2                                            ;
+                                                  | fence(memory_order_release)                       | END2:                                             ;
+                                                  | atomic_store_explicit(y, 1, memory_order_relaxed) |                                                   ;
+                                                  | END1:                                             |                                                   ;
+
+exists (1=1)

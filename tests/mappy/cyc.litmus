@@ -1,0 +1,10 @@
+C11 cyc
+{ x = 0; y = 0; }
+
+P0                                                 | P1                                                 ;
+r0 = atomic_load_explicit(x, memory_order_relaxed) | r1 = atomic_load_explicit(y, memory_order_relaxed) ;
+beq r0, 0, END0                                    | beq r1, 0, END1                                    ;
+atomic_store_explicit(y, 1, memory_order_relaxed)  | atomic_store_explicit(x, 1, memory_order_relaxed)  ;
+END0:                                              | END1:                                              ;
+
+exists (0:r0=1 /\ 1:r1=1)

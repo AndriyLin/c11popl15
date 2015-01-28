@@ -1,0 +1,10 @@
+C11 cyc_na
+{ x = 0; y = 0; }
+
+P0              | P1              ;
+r0 = *x         | r1 = *y         ;
+beq r0, 0, END0 | beq r1, 0, END1 ;
+*y = 1          | *x = 1          ;
+END0:           | END1:           ;
+
+exists (0:r0=1 /\ 1:r1=1)
