@@ -1,0 +1,10 @@
+C11 A3v2
+{ x = 0; y = 0; z = 0; }
+
+P0                                                | P1                                                             ;
+*y = 1                                            | r0 = SCAS(x, z, 1, memory_order_acquire, memory_order_relaxed) ;
+atomic_store_explicit(x, 1, memory_order_release) | beq r0, 0, END1                                                ;
+                                                  | r1 = atomic_load_explicit(y, memory_order_relaxed)             ;
+                                                  | END1:                                                          ;
+
+exists (1:r1=1)

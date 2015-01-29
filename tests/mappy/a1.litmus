@@ -1,0 +1,10 @@
+C11 A1
+{ x = 0; y = 0; }
+
+P0                                                 | P1                                                 ;
+r0 = atomic_load_explicit(y, memory_order_relaxed) | r1 = atomic_load_explicit(x, memory_order_acquire) ;
+atomic_store_explicit(x, 1, memory_order_release)  | beq r1, 0, END1                                    ;
+                                                   | *y = 1                                             ;
+                                                   | END1:                                              ;
+
+exists(x=1 /\ y=1)
