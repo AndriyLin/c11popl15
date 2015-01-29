@@ -1,5 +1,6 @@
 "C11"
 withsc
+withinit
 
 (*
  * Translation of C11 memory model from "Common Compiler Optimisations are
@@ -105,7 +106,7 @@ empty (lhsConsSC \ scTotal) as ConsSC
 (* 6. ConsRFna *)
 #if RF == ConsRFna
 let lhsConsRFna = rf & (( isNA * _ ) | ( _ * isNA ))
-empty (lhsConsRFna \ hb) as ConsRFna
+checkcall subseteq(lhsConsRFna, hb) as ConsRFna
 (* NB: Tyler conjectures that empty racy and ConsRFhb implies ConsRFna *)
 #elif RF == Naive
 (* drop ConsRFna axiom *)

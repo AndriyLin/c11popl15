@@ -54,7 +54,7 @@ def expectRace(test, RF, SC, RS, ST, extra_herd_cmds=[]):
 def regression(args):
   ## Section 1
   ## Standard Source-to-Source Transformations are Invalid in C11
-  std = ("ConsRFna", "SCorig", "RSorig", "STorig")
+  std = ("ConsRFna", "SCorig", "RSorig", "STorig", args.herdflags)
   expectPass("lb.litmus", *std)
   expectPass("cyc.litmus", *std)
   expectFail("seq.litmus", *std)
@@ -74,17 +74,17 @@ def regression(args):
   # Section 4
   # Resolving Causality Cycles and the ConsRFna Axiom
   # Naive Fix
-  naive = ("Naive", "SCorig", "RSorig", "STorig")
+  naive = ("Naive", "SCorig", "RSorig", "STorig", args.herdflags)
   expectRace("cyc_na.litmus", *naive)
   # Arfna
   if not args.skip_fig6:
-    arfna = ("Arfna", "SCorig", "RSorig", "STorig")
+    arfna = ("Arfna", "SCorig", "RSorig", "STorig", args.herdflags)
     expectFail("fig6.litmus", *arfna, extra_herd_cmds=['-speedcheck', 'true'])
     expectPass("fig6_translated.litmus", *arfna, extra_herd_cmds=['-speedcheck', 'true'])
   # Strengthening the Release Sequence Definition
   expectRace("rseq_weak.litmus", *std)
   expectPass("rseq_weak2.litmus", *std)
-  rseq = ("ConsRFna", "SCorig", "RSnew", "STorig")
+  rseq = ("ConsRFna", "SCorig", "RSnew", "STorig", args.herdflags)
   expectPass("rseq_weak.litmus", *rseq)
   expectPass("rseq_weak2.litmus", *rseq)
   
@@ -111,12 +111,12 @@ def regression(args):
   expectRace("a9_reorder.litmus", *std)
   
   # Appendix B
-  arf = ("Arf", "SCorig", "RSorig", "STorig")
+  arf = ("Arf", "SCorig", "RSorig", "STorig", args.herdflags)
   expectFail("b.litmus", *arf)
   expectPass("b_reorder.litmus", *arf)
   
   # Appendix C
-  arfna = ("Arfna", "SCorig", "RSorig", "STorig")
+  arfna = ("Arfna", "SCorig", "RSorig", "STorig", args.herdflags)
   expectFail("c.litmus", *arfna)
   expectPass("c_reorder.litmus", *arfna)
 
@@ -127,6 +127,7 @@ def main(argv=None):
     description="Run model regressions"
   )
   parser.add_argument("--skip-fig6", action="store_true", help="Skip (long-running) fig6 tests")
+  parser.add_argument('herdflags', nargs='*', help="Passed to herd command-line")
   args = parser.parse_args(argv)
   regression(args)
   return 0
