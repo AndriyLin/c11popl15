@@ -1,4 +1,4 @@
-C variants/a6_rel_Rrlx
+C A6
 { [x] = 0; [y] = 0; }
 
 P0 (volatile int* x, volatile int* y) {
@@ -7,9 +7,9 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  int r = atomic_load_explicit(x, memory_order_relaxed);
-  if (r) {
+  int r0 = atomic_load_explicit(x, memory_order_relaxed);
+  if (r0) {
     fence(memory_order_acquire);
-    int t4 = atomic_load_explicit(y, memory_order_relaxed);
+    int r1 = atomic_load_explicit(y, memory_order_relaxed);
   }
 }

@@ -1,4 +1,4 @@
-C A2reordered
+C A2_reorder
 { [x] = 0; [y] = 0; [z] = 0; }
 
 P0 (volatile int* x, volatile int* y) {

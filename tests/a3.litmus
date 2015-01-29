@@ -7,7 +7,7 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  int r1 = atomic_load_explicit(x, memory_order_acquire)) {
+  int r1 = atomic_load_explicit(x, memory_order_acquire);
   if (r1) {
     int r2 = atomic_load_explicit(y, memory_order_relaxed);
   }

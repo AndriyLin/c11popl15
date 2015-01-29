@@ -1,4 +1,4 @@
-C variants/a3v2_acq_Rrlx
+C A3v2
 { [x] = 0; [y] = 0; [z] = 0; }
 
 P0 (volatile int* x, volatile int* y) {
@@ -7,10 +7,10 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  int r0 = SCAS(x, z, 1, memory_order_acquire, memory_order_relaxed);
-  if (r0) {
+  int r1 = SCAS(x, z, 1, memory_order_acquire, memory_order_relaxed);
+  if (r1) {
     int r1 = atomic_load_explicit(y, memory_order_relaxed);
   }
 }
 
-exists(1:r0=1)
+exists (1:r1=1)
