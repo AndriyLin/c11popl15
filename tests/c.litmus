@@ -1,4 +1,4 @@
-C appendixC
+C AppendixC
 { [x] = 0; [y] = 0; [p] = 0; [q] = 0; }
 
 P0 (volatile int* p, volatile int* q) {
