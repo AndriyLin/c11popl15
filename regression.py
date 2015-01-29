@@ -89,6 +89,7 @@ def regression(args):
   expectPass("rseq_weak2.litmus", *rseq)
   
   # Appendix A
+  # TODO: should be run over *all* models not just std
   expectPass("a1.litmus", *std)
   expectRace("a1_reorder.litmus", *std)
   expectPass("a2.litmus", *std)
