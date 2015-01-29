@@ -14,6 +14,7 @@ let sb = singlestep(po) (* except po is a total per-thread order *)
 let mo = co
 let C = rmw
 let scTotal = S (* total order over all SC actions due to 'withsc' option *)
+let imm = singlestep
 
 (* --------------------------------------------------------------------------*)
 (* Figure 2: Auxiliary definitions                                           *)
@@ -119,7 +120,6 @@ acyclic (hb | rfNA) as Arfna
 
 (* 7. SCReads *)
 let scr = scTotal & ( iswrite * _ ) & loc
-let imm = singlestep
 let lhsSCReads = rf & ( _ * isSC )
 #if SC == SCorig
 let rhsSCReads = imm(scr)
@@ -144,7 +144,9 @@ irreflexive (fr;hb) as CohWR
 irreflexive (rf;hb;mo) as CohRW
 
 (* 14. AtRMW *)
-irreflexive ((fr & ( isrmw * _ )) ; mo) as AtRMW
+let lhsAtRMW = (_ * isrmw) & rf
+let rhsAtRMW = imm(mo)
+checkcall subseteq(lhsAtRMW, rhsAtRMW) as AtRMW
 
 (* 15. ConsAlloc not modelled because we cannot express malloc *)
 
