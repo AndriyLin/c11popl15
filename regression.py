@@ -30,7 +30,7 @@ def expectFail(test, RF, SC, RS, ST, extra_herd_cmds=[]):
   else:
     print("FAIL")
     if VERBOSE: print(out)
-  if extra_herd_cmds == [] and not "Bad executions (0 in total)" in out:
+  if extra_herd_cmds == [] and "States 0" not in out and not "Bad executions (0 in total)" in out:
     print("POSSIBLE RACE")
 
 def expectPass(test, RF, SC, RS, ST, extra_herd_cmds=[]):
@@ -40,7 +40,7 @@ def expectPass(test, RF, SC, RS, ST, extra_herd_cmds=[]):
   else:
     print("FAIL")
     if VERBOSE: print(out)
-  if extra_herd_cmds == [] and not "Bad executions (0 in total)" in out:
+  if extra_herd_cmds == [] and "States 0" not in out and not "Bad executions (0 in total)" in out:
     print("POSSIBLE RACE")
 
 def expectRace(test, RF, SC, RS, ST, extra_herd_cmds=[]):
@@ -110,12 +110,14 @@ def regression(args):
   expectRace("a9_reorder.litmus", *std)
   
   # Appendix B
-  expectFail("b.litmus", *std)
-  expectPass("b_reorder.litmus", *std)
+  arf = ("Arf", "SCorig", "RSorig", "STorig")
+  expectFail("b.litmus", *arf)
+  expectPass("b_reorder.litmus", *arf)
   
   # Appendix C
-  expectFail("c.litmus", *std)
-  expectPass("c_reorder.litmus", *std)
+  arfna = ("Arfna", "SCorig", "RSorig", "STorig")
+  expectFail("c.litmus", *arfna)
+  expectPass("c_reorder.litmus", *arfna)
 
 def main(argv=None):
   if argv is None:

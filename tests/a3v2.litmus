@@ -7,8 +7,8 @@ P0 (volatile int* x, volatile int* y) {
 }
 
 P1 (volatile int* x, volatile int* y) {
-  int r1 = SCAS(x, z, 1, memory_order_acquire, memory_order_relaxed);
-  if (r1) {
+  int r0 = SCAS(x, z, 1, memory_order_acquire, memory_order_relaxed);
+  if (r0 == 0) { // cas must have returned false to exit elided while loop
     int r1 = atomic_load_explicit(y, memory_order_relaxed);
   }
 }
