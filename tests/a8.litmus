@@ -3,7 +3,7 @@ C a8
 
 P0 (atomic_int* x, volatile int* y) {
   *y = 1;
-  fence(memory_order_release);
+  atomic_thread_fence(memory_order_release);
   atomic_store_explicit(x, 1, memory_order_relaxed);
 }
 

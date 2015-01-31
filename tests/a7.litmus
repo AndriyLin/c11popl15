@@ -3,7 +3,7 @@ C a7
 
 P0 (atomic_int* x, atomic_int* y) {
   int r0 = atomic_load_explicit(y, memory_order_relaxed);
-  fence(memory_order_release);
+  atomic_thread_fence(memory_order_release);
   atomic_store_explicit(x, 1, memory_order_relaxed);
 }
 

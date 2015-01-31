@@ -4,7 +4,7 @@ C a8_reorder
 P0 (atomic_int* x, volatile int* y) {
   *y = 1;
   atomic_store_explicit(x, 1, memory_order_relaxed);
-  fence(memory_order_release);
+  atomic_thread_fence(memory_order_release);
 }
 
 P1 (atomic_int* x, volatile int* y) {
