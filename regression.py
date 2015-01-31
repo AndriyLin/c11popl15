@@ -119,6 +119,12 @@ def regression(args):
   arfna = ("Arfna", "SCorig", "RSorig", "STorig", args.herdflags)
   expectFail("c.litmus", *arfna)
   expectPass("c_reorder.litmus", *arfna)
+  expectFail("c_p.litmus", *arfna)
+  expectFail("c_q.litmus", *arfna)
+  expectFail("c_pq.litmus", *arfna)
+  expectPass("c_p_reorder.litmus", *arfna)
+  expectPass("c_q_reorder.litmus", *arfna)
+  expectPass("c_pq_reorder.litmus", *arfna)
 
 def main(argv=None):
   if argv is None:
