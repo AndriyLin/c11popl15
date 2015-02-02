@@ -100,8 +100,9 @@ def regression(args):
   expectRace("cyc_na.litmus", *naive)
   # Arfna
   if not args.skip_fig6:
-    expectFail("fig6.litmus", *arfna, extra_herd_cmds=['-speedcheck', 'true'])
-    expectPass("fig6_translated.litmus", *arfna, extra_herd_cmds=['-speedcheck', 'true'])
+    arfna_speedcheck = arfna[:-1] + (arfna[-1] + ['-speedcheck', 'true'],)
+    expectFail("fig6.litmus", *arfna_speedcheck)
+    expectPass("fig6_translated.litmus", *arfna_speedcheck)
   # Strengthening the Release Sequence Definition
   expectRace("rseq_weak.litmus", *std)
   expectPass("rseq_weak2.litmus", *std)
