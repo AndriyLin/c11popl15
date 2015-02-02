@@ -1,4 +1,4 @@
-C11 figure6
+C11 fig6
 { x = 0; y = 0; }
 
 P0                                                | P1                                                | P2                 | P3                                                 ;

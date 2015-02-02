@@ -1,4 +1,4 @@
-C11 seq_transformed
+C11 seq2
 { a = 0; x = 0; y = 0; }
 
 P0                                                 | P1                                                 ;

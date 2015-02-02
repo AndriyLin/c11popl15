@@ -1,4 +1,4 @@
-C11 roachmotel_transformed
+C11 roachmotel2
 { a = 0; x = 0; y = 0; z = 0 }
 
 P0                                                | P1                                                 | P2                                                 ;

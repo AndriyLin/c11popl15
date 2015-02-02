@@ -1,4 +1,4 @@
-C11 AppendixB
+C11 b
 { x = 0; y = 0; }
 
 P0                                                 | P1                                                 ;

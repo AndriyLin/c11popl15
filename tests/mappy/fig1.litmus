@@ -1,4 +1,4 @@
-C11 figure1
+C11 fig1
 { a = 0; x = 0; y = 0; }
 
 P0                                                 | P1                                                 ;

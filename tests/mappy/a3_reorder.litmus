@@ -1,4 +1,4 @@
-C11 A3_reorder
+C11 a3_reorder
 { x = 0; y = 0; }
 
 P0                                                | P1                                                 ;

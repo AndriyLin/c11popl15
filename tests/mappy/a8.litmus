@@ -1,9 +1,9 @@
-C11 A8
+C11 a8
 { x = 0; y = 0; }
 
 P0                                                | P1                                                ;
 *y = 1                                            | r = atomic_load_explicit(x, memory_order_acquire) ;
-fence(memory_order_release)                       | beq r, 0, END1                                    ;
+atomic_thread_fence(memory_order_release)         | beq r, 0, END1                                    ;
 atomic_store_explicit(x, 1, memory_order_relaxed) | *y = 2                                            ;
                                                   | END1:                                             ;
 

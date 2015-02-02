@@ -1,4 +1,4 @@
-C11 rseq_weak_transformed
+C11 rseq_weak2
 { x = 0; y = 0 }
 
 P0                                                | P1                                                 ;

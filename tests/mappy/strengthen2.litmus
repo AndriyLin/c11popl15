@@ -1,4 +1,4 @@
-C11 strengthen_tranformed
+C11 strengthen2
 { a = 0; x = 0; y = 0; z = 0 }
 
 P0                                                | P1                                                 | P2                                                 ;

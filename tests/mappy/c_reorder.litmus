@@ -1,4 +1,4 @@
-C11 AppendixC_reorder
+C11 c_reorder
 { x = 0; y = 0; p = 0; q = 0; }
 
 P0                                                 | P1                                                 ;

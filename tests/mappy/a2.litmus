@@ -1,10 +1,10 @@
-C11 A2
+C11 a2
 { x = 0; y = 0; z = 0; }
 
-P0                                                             | P1                                                 ;
-r0 = atomic_load_explicit(y, memory_order_relaxed)             | r2 = atomic_load_explicit(x, memory_order_acquire) ;
-r1 = SCAS(x, z, 1, memory_order_release, memory_order_relaxed) | beq r2, 0, END1                                    ;
-                                                               | *y = 1                                             ;
-                                                               | END1:                                              ;
+P0                                                                                                | P1                                                 ;
+r0 = atomic_load_explicit(y, memory_order_relaxed)                                                | r2 = atomic_load_explicit(x, memory_order_acquire) ;
+r1 = atomic_compare_exchange_strong_explicit(x, z, 1, memory_order_release, memory_order_relaxed) | beq r2, 0, END1                                    ;
+                                                                                                  | *y = 1                                             ;
+                                                                                                  | END1:                                              ;
 
 exists (1=1)
