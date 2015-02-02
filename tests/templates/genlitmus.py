@@ -52,7 +52,7 @@ def all_accesses(l,v,w):
   for msucc in CHOICES_MO:
     mfail = "memory_order_relaxed"
     tag = "C{0}".format(mo_short(msucc))
-    acc = "SCAS({0}, {1}, {2}, {3}, {4})".format(l, "zero", w, msucc, mfail)
+    acc = "atomic_compare_exchange_strong_explicit({0}, {1}, {2}, {3}, {4})".format(l, "zero", w, msucc, mfail)
     result.append((tag, acc))
   return result
 
@@ -81,7 +81,7 @@ def printvariants(lines, output, tag):
       return 1
     for t,n in all_accesses(loc,v,w):
       l_new = ACCESS_CHOICE_REGEX.sub(n, l, 1)
-      printvariants([l_new] + lines[:], output[:], tag + "_" + t)
+      printvariants([l_new] + lines[:], output[:], tag + "+" + t)
   elif mmatch:
     params = mmatch.group("params")
     for m in params.split(","):
@@ -92,7 +92,7 @@ def printvariants(lines, output, tag):
       except:
         print("Error: unrecognised memory order in MO_CHOICE macro at", l)
         return 1
-      printvariants([l_new] + lines[:], output[:], tag + "_" + t)
+      printvariants([l_new] + lines[:], output[:], tag + "+" + t)
   else:
     output.append(l)
     printvariants(lines, output, tag)
