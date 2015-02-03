@@ -7,7 +7,24 @@ in the C11 Memory Model and what we can do about it" (POPL '15)
 Requirements
 ------------
    * python at least v2.7.3
-   * herd at least X
+   * herd from the github head, https://github.com/herd/herdtools
+
+Generating test variants
+------------------------
+
+Assuming a bash shell:
+
+  $ cd c11popl15/tests/templates
+  $ ./gen.sh
+
+Running the regression
+----------------------
+
+The following runs a short regression (45 tests) by skipping the long running
+fig6 test, only running the standard model over Appendix A and skipping all
+appendix test variants:
+
+  $ ./regression.py --skip-fig6 --skip-non-std-appendixA --skip-variants
 
 Generating models
 -----------------
