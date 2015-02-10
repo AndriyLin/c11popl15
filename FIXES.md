@@ -1,5 +1,7 @@
 # Fixes
 
+All of the following are after discussion and confirmation with Viktor.
+
 ## Definition of sw
 
 Definition of sw in Figure 2. should read isfence(b) rather than isfence(d) in
