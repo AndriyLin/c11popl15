@@ -23,6 +23,7 @@ def main(argv=None):
   parser.add_argument("--ST", metavar="X", choices=CHOICES_ST, default=CHOICES_ST[0], help="choice of sameThread definition: {0}".format(", ".join(CHOICES_ST)))
   parser.add_argument("--input", default="c11.cat-template", type=argparse.FileType('r'), help="Template cat file")
   parser.add_argument("--output", default="gen.cat", type=argparse.FileType('w'), help="Output cat file")
+  parser.add_argument("--inline-libraries", action="store_true", help="Inline library includes")
   parser.add_argument('herdflags', nargs='*', help="Passed to herd command-line")
   args = parser.parse_args(argv)
   if args.output.name == "stdout":
@@ -38,6 +39,15 @@ def main(argv=None):
   macro = None
   output = True
   for l in args.input:
+    if args.inline_libraries and l.startswith("include"):
+      _unused,lib = l.split()
+      lib = lib.replace('"', '')
+      with open(lib, "r") as libinput:
+        i = 0
+        for m in libinput:
+          if i > 2: print(m, file=args.output, end="")
+          i += 1
+      continue
     if l.startswith("#if") or l.startswith("#elif"):
       _unused1,key,_unused,val = l.split()
       assert key in choices.keys()
