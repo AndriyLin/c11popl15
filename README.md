@@ -10,11 +10,15 @@ touched. My adaptations:
 
     * tests/a2.litmus has been modified in this way. The rest are modified
       elsewhere before forking this repo.
+
     * All those under tests/templates/ have been modified accordingly.
 
-* Slightly modify the variants generation .py, the names doesn't contain
-  `variants/` any more. Otherwise, the extra `/` might induce some problems in
-  my further processings.
+* Slightly modify the variants generation .py.
+
+    * The names doesn't contain `variants/` any more. Otherwise, the extra `/`
+      might induce some problems in my further processings.
+
+    * Let ACCESS_CHOICE() may also return `one` in addition to `zero`.
 
 * Some more changes in tests w.r.t. herd v7.44.
 
@@ -23,14 +27,19 @@ touched. My adaptations:
       SCAS is set to a fresh variable, otherwise herd7 would somehow fail to
       output the final states.
 
-    * Some errors in templates, such as not specifying `atomic_int*` in certain
-      scenarios; or assigning 1 to initial values of variable `zero`..
+    * Always use `atomic_int*` instead of `volatile int*` for certain variables.
+
+    * Fix some initial values errors for `zero` / `one`.
 
 Some tests are not used:
 
 * appendixC.litmus and fig9.litmus under /tests/mappy/ because they are written
   in `C11` (but no `C`). Acutally, I don't need the mappy directory..
 
+
+<br/>
+
+Below is the original README:
 
 -----
 

@@ -52,7 +52,14 @@ def all_accesses(l,v,w):
   for msucc in CHOICES_MO:
     mfail = "memory_order_relaxed"
     tag = "C{0}".format(mo_short(msucc))
-    acc = "int {0} = atomic_compare_exchange_strong_explicit({1}, {2}, {3}, {4}, {5})".format(freshvar(), l, "zero", w, msucc, mfail)
+    # Previously, it seems to only generate 'zero' variable name..
+    if v == "0":
+      vStr = "zero"
+    elif v == "1":
+      vStr = "one"
+    else:
+      raise ValueError
+    acc = "int {0} = atomic_compare_exchange_strong_explicit({1}, {2}, {3}, {4}, {5})".format(freshvar(), l, vStr, w, msucc, mfail)
     result.append((tag, acc))
   return result
 

@@ -5,7 +5,7 @@ P0 (atomic_int* x, volatile int* y) {
   atomic_store_explicit(x, 1, memory_order_release);
 }
 
-P1 (atomic_int* x, volatile int* y, atomic_int* one) {
+P1 (atomic_int* x, atomic_int* y, atomic_int* one) {
   int r0 = atomic_compare_exchange_strong_explicit(x, one, 2, MO_CHOICE(memory_order_acquire, memory_order_acq_rel, memory_order_seq_cst), memory_order_relaxed);
   if (r0) { // cas must have returned true to exit elided while loop
     ACCESS_CHOICE(y,1,2);
