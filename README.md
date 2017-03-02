@@ -1,3 +1,13 @@
+XL: Most C11 litmus tests in this repo would be very useful for my experiments.
+So I only adapt the tests to my need, the models and regression test are not
+touched. My adaptations:
+
+* Using latest herd7 (v7.44).
+* Some changes in the test w.r.t. herd v7.44.
+
+
+-----
+
 c11popl15
 =========
 
