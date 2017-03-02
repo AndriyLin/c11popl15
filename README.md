@@ -8,17 +8,17 @@ touched. My adaptations:
   This is to ensure that herd outputs full details of final state, so that I
   can summarize an exact +/- behavior boundary.
 
-    * tests/a2.litmus has been modified in this way. The rest are modified
+    * `tests/a2.litmus` has been modified in this way. The rest are modified
       elsewhere before forking this repo.
 
-    * All those under tests/templates/ have been modified accordingly.
+    * All those under `tests/templates/` have been modified accordingly.
 
 * Slightly modify the variants generation .py.
 
     * The names doesn't contain `variants/` any more. Otherwise, the extra `/`
       might induce some problems in my further processings.
 
-    * Let ACCESS_CHOICE() may also return `one` in addition to `zero`.
+    * Let `ACCESS_CHOICE()` may also return `one` in addition to `zero`.
 
 * Some more changes in tests w.r.t. herd v7.44.
 
@@ -33,8 +33,11 @@ touched. My adaptations:
 
 Some tests are not used:
 
-* appendixC.litmus and fig9.litmus under /tests/mappy/ because they are written
-  in `C11` (but no `C`). Acutally, I don't need the mappy directory..
+* `appendixC.litmus` and `fig9.litmus` under `/tests/mappy/` because they are
+  written in `C11` (but no `C`). Acutally, I don't need the mappy directory..
+
+* `fig6.litmus` and `fig6_translated.litmus` under `/tests` are not used at the
+  moment, because it took too long to generate their full executions..
 
 
 <br/>
