@@ -28,8 +28,8 @@ touched. My adaptations:
 
 Some tests are not used:
 
-* appendixC.litmus and fig9.litmus under /tests/mappy/ because they are not
-  written in "C11". Acutally, I don't need the mappy directory.
+* appendixC.litmus and fig9.litmus under /tests/mappy/ because they are written
+  in `C11` (but no `C`). Acutally, I don't need the mappy directory..
 
 
 -----
