@@ -2,8 +2,34 @@ XL: Most C11 litmus tests in this repo would be very useful for my experiments.
 So I only adapt the tests to my need, the models and regression test are not
 touched. My adaptations:
 
-* Using latest herd7 (v7.44).
-* Some changes in the test w.r.t. herd v7.44.
+* Using latest herd7. (7.44+)
+
+* Litmus conditions of some tests have been augmented to cover all variables.
+  This is to ensure that herd outputs full details of final state, so that I
+  can summarize an exact +/- behavior boundary.
+
+    * tests/a2.litmus has been modified in this way. The rest are modified
+      elsewhere before forking this repo.
+    * All those under tests/templates/ have been modified accordingly.
+
+* Slightly modify the variants generation .py, the names doesn't contain
+  `variants/` any more. Otherwise, the extra `/` might induce some problems in
+  my further processings.
+
+* Some more changes in tests w.r.t. herd v7.44.
+
+    * `SCAS` replaced by expanded `atomic_compare_exchange_strong_explicit`,
+      because `SCAS` is not recognized by herd7. Besides, the return value of
+      SCAS is set to a fresh variable, otherwise herd7 would somehow fail to
+      output the final states.
+
+    * Some errors in templates, such as not specifying `atomic_int*` in certain
+      scenarios; or assigning 1 to initial values of variable `zero`..
+
+Some tests are not used:
+
+* appendixC.litmus and fig9.litmus under /tests/mappy/ because they are not
+  written in "C11". Acutally, I don't need the mappy directory.
 
 
 -----

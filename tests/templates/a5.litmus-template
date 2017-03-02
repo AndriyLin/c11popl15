@@ -12,3 +12,5 @@ P1 (atomic_int* x, atomic_int* y, atomic_int* zero) {
     ACCESS_CHOICE(y,0,1);
   }
 }
+
+exists (x = 0 /\ y = 0 /\ 1:r0 = 0)

@@ -10,4 +10,4 @@ P1 (volatile int* x, volatile int* y) {
   atomic_store_explicit(x, 1, memory_order_relaxed);
 }
 
-exists (0:r0=1 /\ 1:r1=1)
+exists (0:r0=1 /\ 1:r1=1 /\ x = 0 /\ y = 0)

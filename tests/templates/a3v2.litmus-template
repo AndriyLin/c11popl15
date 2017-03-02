@@ -1,4 +1,4 @@
-{ [x] = 0; [y] = 0; [one] = 0; }
+{ [x] = 0; [y] = 0; [one] = 1; }
 
 P0 (atomic_int* x, volatile int* y) {
   *y = 1;
@@ -12,4 +12,4 @@ P1 (atomic_int* x, volatile int* y, atomic_int* one) {
   }
 }
 
-exists(1=1)
+exists(1:r1=1 /\ x = 0 /\ y = 0 /\ 1:r0 = 0)

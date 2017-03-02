@@ -10,4 +10,4 @@ P1 (atomic_int* x, atomic_int* y, atomic_int* zero) {
   int r1 = atomic_load_explicit(x, MO_CHOICE(memory_order_acquire, memory_order_seq_cst));
 }
 
-exists (1:r1=1)
+exists(1:r1=1 /\ x = 0 /\ y = 0 /\ 1:r1 = 0)

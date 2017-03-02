@@ -52,16 +52,16 @@ def all_accesses(l,v,w):
   for msucc in CHOICES_MO:
     mfail = "memory_order_relaxed"
     tag = "C{0}".format(mo_short(msucc))
-    acc = "atomic_compare_exchange_strong_explicit({0}, {1}, {2}, {3}, {4})".format(l, "zero", w, msucc, mfail)
+    acc = "int {0} = atomic_compare_exchange_strong_explicit({1}, {2}, {3}, {4}, {5})".format(freshvar(), l, "zero", w, msucc, mfail)
     result.append((tag, acc))
   return result
 
 ACCESS_CHOICE_REGEX = re.compile(r"ACCESS_CHOICE\((?P<params>[^)]*)\)")
 MO_CHOICE_REGEX = re.compile(r"MO_CHOICE\((?P<params>[^)]*)\)")
 
-def printvariants(lines, output, tag):
+def printvariants(lines, output, out_dir, tag):
   if lines == []:
-    ftag = tag + ".litmus"
+    ftag = out_dir + "/" + tag + ".litmus"
     print("Writing to {0}".format(ftag))
     f = open(ftag, "w")
     print("C {0}".format(tag), file=f)
@@ -81,7 +81,7 @@ def printvariants(lines, output, tag):
       return 1
     for t,n in all_accesses(loc,v,w):
       l_new = ACCESS_CHOICE_REGEX.sub(n, l, 1)
-      printvariants([l_new] + lines[:], output[:], tag + "+" + t)
+      printvariants([l_new] + lines[:], output[:], out_dir, tag + "+" + t)
   elif mmatch:
     params = mmatch.group("params")
     for m in params.split(","):
@@ -92,10 +92,10 @@ def printvariants(lines, output, tag):
       except:
         print("Error: unrecognised memory order in MO_CHOICE macro at", l)
         return 1
-      printvariants([l_new] + lines[:], output[:], tag + "+" + t)
+      printvariants([l_new] + lines[:], output[:], out_dir, tag + "+" + t)
   else:
     output.append(l)
-    printvariants(lines, output, tag)
+    printvariants(lines, output, out_dir, tag)
 
 def main(argv=None):
   if argv is None:
@@ -104,13 +104,14 @@ def main(argv=None):
     description="Generate all litmus variants"
   )
   parser.add_argument("--input", required=True, type=argparse.FileType('r'), help="Template litmus file")
+  parser.add_argument("--output_dir", required=True, type=str, help="Output dir")
   parser.add_argument("--output_base", required=True, type=str, help="Output base")
   args = parser.parse_args(argv)
-  if not os.path.isdir(os.path.dirname(args.output_base)):
-      print("Creating directory %s." % os.path.dirname(args.output_base))
-      os.makedirs(os.path.dirname(args.output_base))
+  if not os.path.isdir(os.path.dirname(args.output_dir)):
+      print("Creating directory %s." % os.path.dirname(args.output_dir))
+      os.makedirs(os.path.dirname(args.output_dir))
   lines = args.input.readlines()
-  return printvariants(lines, [], args.output_base)
+  return printvariants(lines, [], args.output_dir, args.output_base)
 
 if __name__ == '__main__':
   sys.exit(main())
