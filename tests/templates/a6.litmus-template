@@ -9,7 +9,7 @@ P1 (atomic_int* x, atomic_int* y, atomic_int* zero) {
   int r0 = atomic_load_explicit(x, memory_order_relaxed);
   if (r0) {
     atomic_thread_fence(memory_order_acquire);
-    ACCESS_CHOICE(y,0,1);
+    ACCESS_CHOICE(y,0,2);
   }
 }
 

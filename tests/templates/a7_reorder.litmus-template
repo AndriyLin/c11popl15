@@ -2,7 +2,7 @@
 
 P0 (atomic_int* x, atomic_int* y, atomic_int *zero) {
   atomic_thread_fence(memory_order_release);
-  ACCESS_CHOICE(y,0,1);
+  ACCESS_CHOICE(y,0,2);
   atomic_store_explicit(x, 1, memory_order_relaxed);
 }
 

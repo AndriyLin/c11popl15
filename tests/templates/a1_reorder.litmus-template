@@ -2,7 +2,7 @@
 
 P0 (atomic_int* x, atomic_int* y, atomic_int* zero) {
   atomic_store_explicit(x, 1, MO_CHOICE(memory_order_release, memory_order_seq_cst));
-  ACCESS_CHOICE(y,0,1);
+  ACCESS_CHOICE(y,0,2);
 }
 
 P1 (atomic_int* x, volatile int* y) {
