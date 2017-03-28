@@ -42,11 +42,11 @@ def all_accesses(l,v,w):
     acc = "int {0} = atomic_load_explicit({1}, {2})".format(freshvar(), l, m)
     result.append((tag, acc))
   # Writes
-  result.append(("Wna", "*{0} = {1}".format(l, v)))
+  result.append(("Wna", "*{0} = {1}".format(l, w)))
   for m in CHOICES_MO:
     if m == "memory_order_acq_rel": continue
     tag = "W{0}".format(mo_short(m))
-    acc = "atomic_store_explicit({0}, {1}, {2})".format(l, v, m)
+    acc = "atomic_store_explicit({0}, {1}, {2})".format(l, w, m)
     result.append((tag, acc))
   # RMWs
   for msucc in CHOICES_MO:
