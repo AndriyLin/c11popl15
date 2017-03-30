@@ -19,4 +19,4 @@ P2 (atomic_int* x, volatile int* y) {
   }
 }
 
-exists (x=3 /\ y=1)
+exists (x=3 /\ y=1 /\ 2:r0=0 /\ 2:r1=0)

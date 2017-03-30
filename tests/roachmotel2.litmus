@@ -24,4 +24,4 @@ P2 (atomic_int* x, atomic_int* y) {
   }
 }
 
-exists (a=1 /\ z=1 /\ x=1 /\ y=1)
+exists (a=1 /\ z=1 /\ x=1 /\ y=1 /\ 1:r0=0 /\ 1:r1=0 /\ 1:r2=0 /\ 2:r3=0)

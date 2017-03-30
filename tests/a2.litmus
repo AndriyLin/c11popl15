@@ -13,4 +13,4 @@ P1 (atomic_int* x, volatile int* y) {
   }
 }
 
-exists (x = 0 /\ y = 0 /\ z = 0 /\ 0:r0 = 0 /\ 0:r1 = 0 /\ 1:r2 = 0)
+exists (x = 0 /\ y = 0 /\ 0:r0 = 0 /\ 1:r2 = 0)
