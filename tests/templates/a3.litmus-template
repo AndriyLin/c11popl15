@@ -12,4 +12,4 @@ P1 (atomic_int* x, atomic_int* y, atomic_int* one) {
   }
 }
 
-exists(1:r1=1 /\ x = 0 /\ y = 0 /\ 1:r1 = 0)
+exists(1:r1=1 /\ x = 0 /\ y = 0)

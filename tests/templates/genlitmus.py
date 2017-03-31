@@ -32,15 +32,25 @@ def freshvar():
   return "t{0}".format(freshvar.counter)
 freshvar.counter = -1
 
+
+def read_accesses(regs, loc):
+  """
+  Deal with reads only.
+  :param reg: the register string to assign to, given in code
+  :param loc: the location to read from
+  """
+  result = []
+  result.append(("Rna", regs + "*{0}".format(loc)))
+  for mo in CHOICES_MO:
+    if mo == "memory_order_acq_rel": continue
+    tag = "R{0}".format(mo_short(mo))
+    acc = regs + "atomic_load_explicit({0}, {1})".format(loc, mo)
+    result.append((tag, acc))
+  return result
+
+
 def all_accesses(l,v,w):
   result = []
-  # Reads
-  result.append(("Rna", "int {0} = *{1}".format(freshvar(), l)))
-  for m in CHOICES_MO:
-    if m == "memory_order_acq_rel": continue
-    tag = "R{0}".format(mo_short(m))
-    acc = "int {0} = atomic_load_explicit({1}, {2})".format(freshvar(), l, m)
-    result.append((tag, acc))
   # Writes
   result.append(("Wna", "*{0} = {1}".format(l, w)))
   for m in CHOICES_MO:
@@ -63,6 +73,7 @@ def all_accesses(l,v,w):
     result.append((tag, acc))
   return result
 
+READ_CHOICE_REGEX = re.compile(r"(?P<regs>[a-z0-9]*)READ_CHOICE\((?P<param>[^)]*)\)")
 ACCESS_CHOICE_REGEX = re.compile(r"ACCESS_CHOICE\((?P<params>[^)]*)\)")
 MO_CHOICE_REGEX = re.compile(r"MO_CHOICE\((?P<params>[^)]*)\)")
 
@@ -77,9 +88,16 @@ def printvariants(lines, output, out_dir, tag):
     f.close()
     return 0
   l = lines.pop(0)
+  rmatch = READ_CHOICE_REGEX.search(l)
   amatch = ACCESS_CHOICE_REGEX.search(l)
   mmatch = MO_CHOICE_REGEX.search(l)
-  if amatch:
+  if rmatch:
+    regs = rmatch.group("regs")
+    param = rmatch.group("param")
+    for t,n in read_accesses(regs, param):
+      l_new = READ_CHOICE_REGEX.sub(n, l, 1)
+      printvariants([l_new] + lines[:], output[:], out_dir, tag + "+" + t)
+  elif amatch:
     params = amatch.group("params")
     try:
       loc,v,w = params.split(',')
